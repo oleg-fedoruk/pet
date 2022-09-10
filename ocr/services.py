@@ -4,7 +4,8 @@ import aiofiles as aiofiles
 from fastapi import UploadFile, HTTPException
 from sqlmodel import Session
 
-from ocr.model import User, Image, engine
+from app_base.database import engine
+from ocr.models import User, Image
 
 
 async def save_image(

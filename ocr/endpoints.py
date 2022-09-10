@@ -1,8 +1,8 @@
-from fastapi import APIRouter, BackgroundTasks, Form, UploadFile, File
+from fastapi import APIRouter, Form, UploadFile, File
 from starlette.templating import Jinja2Templates
 
-from ocr.model import User
 from ocr.services import save_image
+from profiles.models import User
 
 video_router = APIRouter(prefix='/image', tags=["image"])
 templates = Jinja2Templates(directory="templates")

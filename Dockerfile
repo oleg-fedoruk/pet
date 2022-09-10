@@ -6,14 +6,13 @@ ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
 
 RUN apt-get update
-RUN apt-get upgrade -y && apt-get install -y postgresql gcc python3-dev musl-dev tesseract-ocr libtesseract-dev
+RUN apt-get upgrade -y && apt-get install -y postgresql gcc python3-dev musl-dev
 
 RUN pip install --upgrade pip
 
 COPY . .
 
-COPY ./requirements.txt .
-RUN ls && pwd
+COPY ./req.txt .
 RUN pip wheel --no-cache-dir --no-deps --wheel-dir /usr/src/app/wheels -r req.txt
 
 
@@ -30,7 +29,7 @@ ENV APP_HOME=/home/app/web
 RUN mkdir $APP_HOME
 WORKDIR $APP_HOME
 
-RUN apt-get update && apt-get install -y netcat
+RUN apt-get update && apt-get install -y netcat tesseract-ocr libtesseract-dev
 
 
 COPY --from=builder /usr/src/app/wheels /wheels
