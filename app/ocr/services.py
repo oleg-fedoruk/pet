@@ -1,11 +1,12 @@
 from uuid import uuid4
 
 import aiofiles as aiofiles
-from fastapi import UploadFile, HTTPException
+from fastapi import UploadFile, HTTPException, Depends
 from sqlmodel import Session
 
-from app_base.database import engine
-from ocr.models import User, Image
+from app.core.database import get_db
+from app.ocr.models import Image
+from app.profiles.models import User
 
 
 async def save_image(
@@ -13,6 +14,7 @@ async def save_image(
         file: UploadFile,
         title: str,
         extension: str,
+        db: Session = Depends(get_db)
 ):
     file_name = f'media/{user.id}_{uuid4()}.mp4'
     if file.content_type == 'image/jpeg' or file.content_type == 'image/png':
@@ -20,7 +22,7 @@ async def save_image(
     else:
         raise HTTPException(status_code=418, detail="It isn't png or jpeg")
     img = Image(title=title, extension=extension, user_id=user.id)
-    async with Session(engine) as session:
+    async with db as session:
         session.add(img)
         await session.commit()
 

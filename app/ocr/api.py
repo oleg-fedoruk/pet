@@ -1,14 +1,14 @@
 from fastapi import APIRouter, Form, UploadFile, File
 from starlette.templating import Jinja2Templates
 
-from ocr.services import save_image
-from profiles.models import User
+from app.ocr.services import save_image
+from app.profiles.models import User
 
-video_router = APIRouter(prefix='/image', tags=["image"])
+image_router = APIRouter(prefix='/image', tags=["image"])
 templates = Jinja2Templates(directory="templates")
 
 
-@video_router.post('/')
+@image_router.post('/')
 async def upload_image(
         title: str = Form(...),
         extension: str = Form(...),
