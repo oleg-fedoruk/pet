@@ -3,8 +3,8 @@ from logging.config import fileConfig
 from sqlalchemy import engine_from_config
 from sqlalchemy import pool
 from sqlmodel import SQLModel
-from profiles.models import *
-from ocr.models import *
+from app.profiles.models import *
+from app.ocr.models import *
 
 from alembic import context
 
