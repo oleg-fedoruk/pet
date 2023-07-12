@@ -33,3 +33,6 @@ uvicorn==0.18.2
 uvloop==0.16.0
 watchfiles==0.16.1
 websockets==10.3
+psycopg2-binary==2.9.6
+pdfrw~=0.4
+reportlab~=3.5.66
