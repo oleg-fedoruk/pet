@@ -13,7 +13,7 @@ RUN pip install --upgrade pip
 COPY . .
 
 COPY ./req.txt .
-RUN pip wheel --no-cache-dir --no-deps --wheel-dir /usr/src/app/wheels -r req.txt
+RUN pip wheel --no-cache-dir --no-deps --wheel-dir /usr/src/app/wheels -r requirements.txt
 
 
 FROM python:3.10
