@@ -1,33 +1,43 @@
-from typing import Optional
-
-from sqlmodel import Field, SQLModel, Relationship
-
-from app.core.models import TimestampModel, UUIDModel
-
-
-class ImageBase(SQLModel):
-    title: str
-    extension: str
+from sqlalchemy import Column, String, ForeignKey, Integer, DateTime
+from sqlalchemy.dialects.postgresql import UUID
+from sqlalchemy.orm import relationship
+import uuid
+from app.core.database import Base
 
 
-class Image(TimestampModel, ImageBase, UUIDModel, table=True):
-    owner_id: Optional[int] = Field(default=None, foreign_key='user.id')
+class ExternalFile(Base):
+    __tablename__ = 'external_files'
+    __tableargs__ = {
+        'comment': 'Внешние загруженные файлы'
+    }
+
+    id = Column(UUID(as_uuid=True), primary_key=True, index=True, default=uuid.uuid4, comment='Идентификатор')
+    title = Column(String, index=True, comment='Наименование')
+    file_path = Column(String, comment='Файл')
+
+    owner_id = Column(Integer, ForeignKey('users_profiles.id'), comment='Владелец файла')
+    owner = relationship('User', back_populates='files', lazy='subquery')
+
+    created_at = Column(DateTime, comment='Дата и время создания')
+
+    def __repr__(self):
+        return f'{self.title} uuid: {self.id}'
 
 
-class ImageRead(ImageBase, UUIDModel):
-    owner: Optional['UserRead'] = Relationship(back_populates="images")
+class ResultFile(Base):
+    __tablename__ = 'result_files'
+    __tableargs__ = {
+        'comment': 'Сгенерированные файлы'
+    }
 
+    id = Column(UUID(as_uuid=True), primary_key=True, index=True, default=uuid.uuid4, comment='Идентификатор')
+    title = Column(String, index=True, comment='Наименование')
+    file_path = Column(String, comment='Файл')
 
-class ResultFileBase(SQLModel):
-    title: str
-    path: str
+    owner_id = Column(Integer, ForeignKey('users_profiles.id'), comment='Владелец файла')
+    owner = relationship('User', back_populates='files', lazy='subquery')
 
+    created_at = Column(DateTime, comment='Дата и время создания')
 
-class ResultFile(TimestampModel, ResultFileBase, UUIDModel, table=True):
-    source_id: Optional[str] = Field(default=None, foreign_key="image.uuid")
-    owner_id: Optional[int] = Field(default=None, foreign_key='user.id')
-
-
-class ResultFileRead(ResultFileBase, UUIDModel):
-    owner: Optional['UserRead'] = Relationship(back_populates="images")
-    source: Optional[ImageRead] = Relationship(sa_relationship_kwargs={'uselist': False}, back_populates="result")
+    def __repr__(self):
+        return f'{self.title} uuid: {self.id}'
