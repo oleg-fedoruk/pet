@@ -16,7 +16,7 @@ class ExternalFile(Base):
     file_path = Column(String, comment='Файл')
 
     owner_id = Column(Integer, ForeignKey('users_profiles.id'), comment='Владелец файла')
-    owner = relationship('User', back_populates='files', lazy='subquery')
+    owner = relationship('User', back_populates='images', lazy='subquery')
 
     created_at = Column(DateTime, comment='Дата и время создания')
 
@@ -35,7 +35,7 @@ class ResultFile(Base):
     file_path = Column(String, comment='Файл')
 
     owner_id = Column(Integer, ForeignKey('users_profiles.id'), comment='Владелец файла')
-    owner = relationship('User', back_populates='files', lazy='subquery')
+    owner = relationship('User', back_populates='docs', lazy='subquery')
 
     created_at = Column(DateTime, comment='Дата и время создания')
 

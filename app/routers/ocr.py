@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Form, UploadFile, File
 from starlette.templating import Jinja2Templates
 
-from app.ocr.services import save_image
+from app.ocr.services import write_file
 from app.profiles.models import User
 
 image_router = APIRouter(prefix='/image', tags=["image"])
@@ -15,4 +15,4 @@ async def upload_image(
         file: UploadFile = File(...)
 ):
     user = User(id=1, username='Oleg')
-    return await save_image(user=user, file=file, title=title, extension=extension)
+    return await write_file(user=user, file=file, title=title, extension=extension)
