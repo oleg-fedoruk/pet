@@ -1,8 +1,8 @@
-"""migration_for_files
+"""init
 
-Revision ID: c08a774eb303
-Revises: 9a8326e5378a
-Create Date: 2023-11-30 09:12:58.030318
+Revision ID: 19bbad76a7d0
+Revises: 
+Create Date: 2023-12-03 18:55:15.090659
 
 """
 from alembic import op
@@ -10,8 +10,8 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = 'c08a774eb303'
-down_revision = '9a8326e5378a'
+revision = '19bbad76a7d0'
+down_revision = None
 branch_labels = None
 depends_on = None
 

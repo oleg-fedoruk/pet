@@ -1,27 +1,33 @@
-from datetime import datetime
+import datetime
+from typing import Optional
 
-from pydantic import BaseModel
-
-
-class UserBase(BaseModel):
-    username: str
-    email: str | None = None
-    is_active: bool
-    is_admin: bool
+from fastapi_users import schemas
+from fastapi_users.schemas import CreateUpdateDictModel
+from pydantic import BaseModel, EmailStr
 
 
-class User(UserBase):
+class UserRead(schemas.BaseUser[int]):
     id: int
+    username: Optional[str]
     is_active: bool
     is_admin: bool
-    created_at: datetime
-
-    class Config:
-        orm_mode = True
+    created_at: datetime.datetime
 
 
-class UserInDB(User):
-    hashed_password: str
+class UserCreate(schemas.BaseUserCreate):
+    username: str
+    is_admin: bool
+
+
+class UserRegister(CreateUpdateDictModel):
+    username: str
+    email: EmailStr
+    password: str
+
+
+class UserUpdate(schemas.BaseUserUpdate):
+    username: str
+    is_admin: bool
 
 
 class Token(BaseModel):
