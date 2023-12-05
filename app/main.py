@@ -1,7 +1,8 @@
 import uvicorn
-from fastapi import FastAPI
+from fastapi import FastAPI, Depends
 
 from app.core.database import engine
+from app.dependencies import current_user
 from app.profiles.auth import auth_backend
 from app.profiles.schemas import UserRead, UserRegister, UserUpdate
 from app.routers.clients import client_router
@@ -9,7 +10,8 @@ from app.routers.ocr import image_router
 from app.routers.profiles import fastapi_users
 from app.routers.tpdf import tpdf_router
 
-app = FastAPI()
+# app = FastAPI(dependencies=[Depends(current_user)])
+app = FastAPI(dependencies=[])
 app.include_router(image_router)
 app.include_router(tpdf_router)
 app.include_router(client_router)
@@ -44,9 +46,8 @@ if __name__ == '__main__':
     uvicorn.run('main:app', host="localhost", port=8000, reload=True)
 
 # TODO
-#  - использование системы аутентификации - зависимости для всех роутов
+#  - загрузка картинки
 #  - создать привязку файла к пользователю
-#  - сделать миграции
 #  - создать crud для этих моделей
 #  - сделать страницу для внесения основных данных (PersonalData)
 #  - сделать возможность внесения данных в pdf

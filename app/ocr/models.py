@@ -1,4 +1,4 @@
-from sqlalchemy import Column, String, ForeignKey, Integer, DateTime
+from sqlalchemy import Column, String, ForeignKey, Integer, DateTime, func
 from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.orm import relationship
 import uuid
@@ -18,7 +18,7 @@ class ExternalFile(Base):
     owner_id = Column(Integer, ForeignKey('users_profiles.id'), comment='Владелец файла')
     owner = relationship('User', back_populates='images', lazy='subquery')
 
-    created_at = Column(DateTime, comment='Дата и время создания')
+    created_at = Column(DateTime(timezone=True), comment='Дата и время создания', server_default=func.now())
 
     def __repr__(self):
         return f'{self.title} uuid: {self.id}'
@@ -37,7 +37,7 @@ class ResultFile(Base):
     owner_id = Column(Integer, ForeignKey('users_profiles.id'), comment='Владелец файла')
     owner = relationship('User', back_populates='docs', lazy='subquery')
 
-    created_at = Column(DateTime, comment='Дата и время создания')
+    created_at = Column(DateTime(timezone=True), comment='Дата и время создания', server_default=func.now())
 
     def __repr__(self):
         return f'{self.title} uuid: {self.id}'

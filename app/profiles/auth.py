@@ -10,12 +10,28 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.core.database import get_session
 from app.profiles.models import User as UserModel
-from app.profiles.schemas import UserInDB, User, TokenData
+from app.profiles.schemas import UserCreate, UserRead, TokenData
 from app.settings import SECRET_KEY, ALGORITHM
+from fastapi_users.authentication import AuthenticationBackend, BearerTransport, JWTStrategy
+
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
+
+
+bearer_transport = BearerTransport(tokenUrl="auth/jwt/login")
+
+
+def get_jwt_strategy() -> JWTStrategy:
+    return JWTStrategy(secret=SECRET_KEY, lifetime_seconds=3600)
+
+
+auth_backend = AuthenticationBackend(
+    name="jwt",
+    transport=bearer_transport,
+    get_strategy=get_jwt_strategy,
+)
 
 
 def verify_password(plain_password: str, hashed_password: str):
@@ -51,7 +67,7 @@ def create_access_token(data: dict, expires_delta: timedelta | None = None):
     return encoded_jwt
 
 
-async def get_current_user(token: Annotated[str, Depends(oauth2_scheme)],  session: AsyncSession = Depends(get_session)):
+async def get_current_user(token: Annotated[str, Depends(oauth2_scheme)], session: AsyncSession = Depends(get_session)):
     credentials_exception = HTTPException(
         status_code=status.HTTP_401_UNAUTHORIZED,
         detail="Could not validate credentials",
@@ -72,7 +88,7 @@ async def get_current_user(token: Annotated[str, Depends(oauth2_scheme)],  sessi
 
 
 async def get_current_active_user(
-        current_user: Annotated[User, Depends(get_current_user)]
+        current_user: Annotated[UserRead, Depends(get_current_user)]
 ):
     if not current_user.is_active:
         raise HTTPException(status_code=400, detail="Inactive user")
