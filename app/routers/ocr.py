@@ -27,7 +27,7 @@ async def upload_image(
 
 
 @image_router.get('/{file_id}', dependencies=[Depends(current_user)], response_model=FileOut)
-async def upload_image(
+async def get_image_data(
         file_id: str,
         session: AsyncSession = Depends(get_session),
 ):

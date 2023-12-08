@@ -1,8 +1,8 @@
-"""tables
+"""init
 
-Revision ID: 706ad47223c3
-Revises: 19bbad76a7d0
-Create Date: 2023-12-03 19:01:57.889600
+Revision ID: e73e81b3dcf2
+Revises: 
+Create Date: 2023-12-08 09:50:45.916247
 
 """
 from alembic import op
@@ -10,8 +10,8 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = '706ad47223c3'
-down_revision = '19bbad76a7d0'
+revision = 'e73e81b3dcf2'
+down_revision = None
 branch_labels = None
 depends_on = None
 
@@ -37,7 +37,7 @@ def upgrade() -> None:
     sa.Column('title', sa.String(), nullable=True, comment='Наименование'),
     sa.Column('file_path', sa.String(), nullable=True, comment='Файл'),
     sa.Column('owner_id', sa.Integer(), nullable=True, comment='Владелец файла'),
-    sa.Column('created_at', sa.DateTime(), nullable=True, comment='Дата и время создания'),
+    sa.Column('created_at', sa.DateTime(timezone=True), server_default=sa.text('now()'), nullable=True, comment='Дата и время создания'),
     sa.ForeignKeyConstraint(['owner_id'], ['users_profiles.id'], ),
     sa.PrimaryKeyConstraint('id')
     )
@@ -48,7 +48,7 @@ def upgrade() -> None:
     sa.Column('title', sa.String(), nullable=True, comment='Наименование'),
     sa.Column('file_path', sa.String(), nullable=True, comment='Файл'),
     sa.Column('owner_id', sa.Integer(), nullable=True, comment='Владелец файла'),
-    sa.Column('created_at', sa.DateTime(), nullable=True, comment='Дата и время создания'),
+    sa.Column('created_at', sa.DateTime(timezone=True), server_default=sa.text('now()'), nullable=True, comment='Дата и время создания'),
     sa.ForeignKeyConstraint(['owner_id'], ['users_profiles.id'], ),
     sa.PrimaryKeyConstraint('id')
     )
