@@ -1,12 +1,15 @@
 from datetime import datetime
+from typing import Optional, Union
+from uuid import UUID
 
 from pydantic import BaseModel
 
 
 class File(BaseModel):
+    id: Union[str, UUID]
     title: str
     file_path: str
-    created_at: datetime
+    owner_id: int
 
 
 class FileCreate(File):
@@ -14,8 +17,4 @@ class FileCreate(File):
 
 
 class FileOut(File):
-    id: int
-    owner_id: int
-
-    class Config:
-        orm_mode = True
+    created_at: Optional[datetime]
