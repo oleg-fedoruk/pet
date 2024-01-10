@@ -7,8 +7,3 @@
 - в env.py ставим ```target_metadata = SQLModel.metadata```
 - создаём первый файл миграций ```alembic revision --autogenerate -m "init"```
 - применяем миграцию ```alembic upgrade head```
-
-
-## Docker DataBase
-run-db:
-	docker run --name tesseract_postgres -p 5432:5432 -e POSTGRES_PASSWORD=mysuperpassword -e POSTGRES_DB=tesseract -d postgres
