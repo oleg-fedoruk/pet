@@ -15,7 +15,7 @@ async def test_token(create_user_in_database):
     return await strategy.write_token(user)
 
 
-async def test_get_image_info(app, client, event_loop, test_token):
+async def test_get_image_info(client, cleanup, test_token):
     response = await client.post(
         '/image/',
         files={"file": ("filename", b'some', "image/png")},

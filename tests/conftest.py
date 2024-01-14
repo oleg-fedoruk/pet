@@ -3,6 +3,7 @@ import contextlib
 from contextlib import ExitStack
 
 import pytest
+from anyio import Path, open_file
 from fastapi import Depends
 from httpx import AsyncClient
 from starlette.testclient import TestClient
@@ -85,3 +86,12 @@ async def create_user_in_database(session_override):
             print(f"User {email} already exists")
 
     return create_user
+
+
+@pytest.fixture
+async def cleanup():
+    # TODO DANGEROUS refactor to a better solution
+    yield
+    path = Path(__file__).parent / 'media'
+    async for image in path.glob('*.jpeg'):
+        await image.unlink()
