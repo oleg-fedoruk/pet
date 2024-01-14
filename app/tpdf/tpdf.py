@@ -288,7 +288,7 @@ class TPdf:
                         dt.strptime(data[key], '%Y-%m-%d'),
                         '%d.%m.%Y'
                     )
-                except:
+                except Exception:
                     pass  # если формат даты другой, то не надо паниковать.
 
         return data

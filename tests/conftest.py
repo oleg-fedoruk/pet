@@ -3,12 +3,11 @@ import contextlib
 from contextlib import ExitStack
 
 import pytest
-from anyio import Path, open_file
+from anyio import Path
 from fastapi import Depends
-from httpx import AsyncClient
-from starlette.testclient import TestClient
 from fastapi_users.exceptions import UserAlreadyExists
 from fastapi_users_db_sqlalchemy import SQLAlchemyUserDatabase
+from httpx import AsyncClient
 from sqlalchemy.ext.asyncio import AsyncSession
 
 import app.settings as settings

@@ -1,10 +1,10 @@
 from contextlib import asynccontextmanager
 
 import uvicorn
-from fastapi import FastAPI, Depends
+from fastapi import FastAPI
+
 import app.settings as settings
 from app.core.database import sessionmanager
-from app.dependencies import current_user
 from app.profiles.auth import auth_backend
 from app.profiles.schemas import UserRead, UserRegister, UserUpdate
 from app.routers.clients import client_router
@@ -14,7 +14,6 @@ from app.routers.tpdf import tpdf_router
 
 
 def init_app(init_db=True):
-    lifespan = None
     if init_db:
         sessionmanager.init(settings.DATABASE_URL)
 
@@ -54,7 +53,6 @@ if __name__ == '__main__':
     uvicorn.run('main:app', host="localhost", port=8000, reload=True)
 
 # TODO
-#  - добавить Pytests
 #  - внести линтеры и прекоммит-хуки (4 часть)
 #  - проект таблиц для работы с данными паспортов
 #  - обработка картинки (чтение данных с картинки)

@@ -1,0 +1,47 @@
+[flake8]
+max-line-length = 110
+max-complexity = 15
+enable-extensions=
+    G
+    TC0
+    TC1
+extend-ignore =
+    # whitespace before ':' (compatibility with black formatter)
+    E203
+    E231
+    G200
+    # http://www.pydocstyle.org/en/latest/error_codes.html#default-conventions
+    D
+    TC002
+    # celery-require-tasks-expire
+    PIE785
+    # precise-exception-handlers
+    # PIE786
+    PIE798
+    PIE793
+    SIM102
+    # Missing type annotation for self in method
+    ANN101
+    # Missing type annotation for *args
+    ANN002
+    # Missing type annotation for **kwargs
+    ANN003
+    # Missing type annotation for cls in classmethod
+    ANN102
+exclude =
+    .svn,
+    CVS,
+    .bzr,
+    .hg,
+    .git,
+    __pycache__,
+    .tox,
+    */migrations/*,
+    env/,
+    venv/
+per-file-ignores =
+    */**/test*.py:ECE,CCR,E501,TAE001,SIM300,ANN,S101
+    */**/conftest.py:ECE,CCR,E501,TAE001,SIM300,ANN
+docstring-convention=google
+ignore-django-orm-queries-complexity = True
+type-checking-cattrs-enabled = true

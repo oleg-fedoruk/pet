@@ -16,7 +16,7 @@ class UserRead(schemas.BaseUser[int]):
 
 class UserCreate(schemas.BaseUserCreate):
     username: str
-    is_admin: bool
+    is_admin: bool = False
 
 
 class UserRegister(CreateUpdateDictModel):
